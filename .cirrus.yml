@@ -7,7 +7,7 @@ env:
 task:
   name: Test
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
+  only_if: $CIRRUS_REPO_OWNER == 'Blogger-auto-post'
   timeout_in: 2m
   persistent_worker:
     labels:
@@ -45,7 +45,7 @@ task:
 task:
   name: Build
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
+  only_if: $CIRRUS_REPO_OWNER == 'Blogger-auto-post'
   depends_on:
     - Test
   timeout_in: 4h
@@ -66,8 +66,8 @@ task:
     - cat $CIRRUS_WORKING_DIR/build_rom.sh
   test_script:
     - set -e
-    - curl -Ls https://raw.githubusercontent.com/ROM-builders/temporary/main/test.sh | bash
-  sync_script:
+    - curl -Ls  | bash
+  sync_script:https://raw.githubusercontent.com/Blogger-auto-post/temp/main/test.sh
     - set -e
     - rom_name=$(grep init $CIRRUS_WORKING_DIR/build_rom.sh -m 1 | cut -d / -f 4)
     - branch_name=$(grep init $CIRRUS_WORKING_DIR/build_rom.sh | awk -F "-b " '{print $2}' | awk '{print $1}')
@@ -294,7 +294,7 @@ task:
 task:
   name: Post Build
   skip: $CIRRUS_BRANCH == 'main'
-  only_if: $CIRRUS_REPO_OWNER == 'ROM-builders'
+  only_if: $CIRRUS_REPO_OWNER == 'Blogger-auto-post'
   skip_notifications: true
   depends_on:
     - Build
